@@ -14,7 +14,7 @@ export class PIIDetector {
       // Common name patterns (simplified)
       name: /\b[A-Z][a-z]+ [A-Z][a-z]+\b/g,
       ipAddress: /\b(?:\d{1,3}\.){3}\d{1,3}\b/g,
-      url: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g,
+      url: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g,
       // AWS Access Key patterns
       awsAccessKey: /\b(A3T[A-Z0-9]|AKIA|AGPA|AIDA|AROA|AIPA|ANPA|ANVA|ASIA)[A-Z0-9]{16}\b/g,
       // AWS Secret Key pattern
@@ -64,10 +64,9 @@ export class PIIDetector {
   /**
    * Gets appropriate mask for PII type
    * @param {string} type - Type of PII
-   * @param {string} original - Original text
    * @returns {string} - Masked text
    */
-  getMaskForType(type, original) {
+  getMaskForType(type) {
     const masks = {
       email: '[EMAIL REDACTED]',
       phone: '[PHONE REDACTED]',
