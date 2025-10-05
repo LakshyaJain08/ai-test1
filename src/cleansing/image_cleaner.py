@@ -2,9 +2,14 @@
 Image Cleansing Module
 Removes logos and sensitive visual information from images
 """
-from PIL import Image, ImageDraw, ImageFilter
 import os
 from typing import Tuple, List
+
+try:
+    from PIL import Image, ImageDraw, ImageFilter
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
 
 
 class ImageCleaner:
@@ -24,6 +29,10 @@ class ImageCleaner:
         Returns:
             List of bounding boxes (x1, y1, x2, y2)
         """
+        if not PIL_AVAILABLE:
+            print("Error: PIL not available")
+            return []
+        
         try:
             img = Image.open(image_path)
             width, height = img.size

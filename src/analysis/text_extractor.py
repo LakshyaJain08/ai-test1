@@ -4,12 +4,42 @@ Extracts text from various file formats including images, PDFs, Office documents
 """
 import os
 from typing import Dict, Optional
-from PIL import Image
-import pytesseract
-import PyPDF2
-from docx import Document
-import openpyxl
-from pptx import Presentation
+
+try:
+    from PIL import Image
+    PILLOW_AVAILABLE = True
+except ImportError:
+    PILLOW_AVAILABLE = False
+
+try:
+    import pytesseract
+    PYTESSERACT_AVAILABLE = True
+except ImportError:
+    PYTESSERACT_AVAILABLE = False
+
+try:
+    import PyPDF2
+    PYPDF2_AVAILABLE = True
+except ImportError:
+    PYPDF2_AVAILABLE = False
+
+try:
+    from docx import Document
+    DOCX_AVAILABLE = True
+except ImportError:
+    DOCX_AVAILABLE = False
+
+try:
+    import openpyxl
+    OPENPYXL_AVAILABLE = True
+except ImportError:
+    OPENPYXL_AVAILABLE = False
+
+try:
+    from pptx import Presentation
+    PPTX_AVAILABLE = True
+except ImportError:
+    PPTX_AVAILABLE = False
 
 
 class TextExtractor:
@@ -21,7 +51,8 @@ class TextExtractor:
             'pdf': ['.pdf'],
             'word': ['.docx', '.doc'],
             'excel': ['.xlsx', '.xls'],
-            'powerpoint': ['.pptx', '.ppt']
+            'powerpoint': ['.pptx', '.ppt'],
+            'text': ['.txt']
         }
     
     def extract_from_image(self, file_path: str) -> str:
@@ -34,6 +65,9 @@ class TextExtractor:
         Returns:
             Extracted text
         """
+        if not PILLOW_AVAILABLE or not PYTESSERACT_AVAILABLE:
+            return "Error: PIL or pytesseract not installed. Install with: pip install Pillow pytesseract"
+        
         try:
             img = Image.open(file_path)
             text = pytesseract.image_to_string(img)
@@ -51,6 +85,9 @@ class TextExtractor:
         Returns:
             Extracted text
         """
+        if not PYPDF2_AVAILABLE:
+            return "Error: PyPDF2 not installed. Install with: pip install PyPDF2"
+        
         try:
             text = ""
             with open(file_path, 'rb') as file:
@@ -72,6 +109,9 @@ class TextExtractor:
         Returns:
             Extracted text
         """
+        if not DOCX_AVAILABLE:
+            return "Error: python-docx not installed. Install with: pip install python-docx"
+        
         try:
             doc = Document(file_path)
             text = ""
@@ -91,6 +131,9 @@ class TextExtractor:
         Returns:
             Extracted text
         """
+        if not OPENPYXL_AVAILABLE:
+            return "Error: openpyxl not installed. Install with: pip install openpyxl"
+        
         try:
             workbook = openpyxl.load_workbook(file_path, data_only=True)
             text = ""
@@ -118,6 +161,9 @@ class TextExtractor:
         Returns:
             Extracted text
         """
+        if not PPTX_AVAILABLE:
+            return "Error: python-pptx not installed. Install with: pip install python-pptx"
+        
         try:
             prs = Presentation(file_path)
             text = ""
@@ -132,6 +178,23 @@ class TextExtractor:
             return text.strip()
         except Exception as e:
             return f"Error extracting text from PowerPoint: {str(e)}"
+    
+    def extract_from_text(self, file_path: str) -> str:
+        """
+        Extract text from plain text file
+        
+        Args:
+            file_path: Path to text file
+            
+        Returns:
+            Extracted text
+        """
+        try:
+            with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                text = f.read()
+            return text.strip()
+        except Exception as e:
+            return f"Error extracting text from text file: {str(e)}"
     
     def extract_text(self, file_path: str) -> Dict[str, any]:
         """
@@ -167,6 +230,9 @@ class TextExtractor:
                 result['success'] = True
             elif ext in self.supported_formats['powerpoint']:
                 result['text'] = self.extract_from_powerpoint(file_path)
+                result['success'] = True
+            elif ext in self.supported_formats['text']:
+                result['text'] = self.extract_from_text(file_path)
                 result['success'] = True
             else:
                 result['text'] = f"Unsupported file format: {ext}"
