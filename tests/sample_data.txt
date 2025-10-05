@@ -1,0 +1,60 @@
+Sample Security Assessment Report
+Company: SecureTest Corporation
+Date: 2024-01-15
+
+Contact Information:
+Security Lead: Jane Smith
+Email: jane.smith@securetest.com
+Phone: (555) 987-6543
+Address: 456 Security Blvd, Suite 200, San Francisco, CA
+
+IAM Policy Review:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::company-data/*"
+        },
+        {
+            "Effect": "Deny",
+            "Action": "s3:DeleteObject",
+            "Resource": "*"
+        }
+    ]
+}
+
+Firewall Configuration:
+Rule 100: allow tcp port 443 from 10.0.0.0/8 to 192.168.1.100
+Rule 101: allow tcp port 80 from any to 192.168.1.100
+Rule 102: deny tcp port 22 from any to 192.168.1.0/24
+Rule 103: allow udp port 53 from 10.0.0.0/8 to 8.8.8.8
+Rule 104: drop icmp from any to 192.168.1.0/24
+
+IDS/IPS Alert Log:
+2024-01-15 10:30:45 [ALERT] Critical: Signature: SQL Injection Attempt Detected
+Src: 203.0.113.45 Dst: 192.168.1.100 Protocol: TCP Port: 443
+
+2024-01-15 10:31:12 [ALERT] High: Signature: Brute Force SSH Attack
+Src: 198.51.100.23 Dst: 192.168.1.50 Protocol: TCP Port: 22
+
+2024-01-15 10:32:03 [ALERT] Medium: Signature: Port Scan Detected
+Src: 203.0.113.100 Dst: 192.168.1.0/24 Protocol: TCP
+
+Additional Contact:
+Technical Support: support@securetest.com
+Emergency: (555) 999-8888
+SSN for verification: 987-65-4321
+Credit Card on file: 5555-4444-3333-2222
+
+Network Information:
+Internal Network: 192.168.1.0/24
+Gateway: 192.168.1.1
+DNS Server: 8.8.8.8
+Backup DNS: 8.8.4.4
+
+This report contains sensitive information and should be handled according to company policy.
