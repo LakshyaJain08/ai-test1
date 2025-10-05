@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI File Cleansing and Analysis System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔒 AI File Cleansing and Analysis System</h1>
+            <p class="subtitle">Automated solution for cleansing and analyzing security consultant files</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Upload Section -->
+            <section class="card">
+                <h2>📁 Upload File</h2>
+                <div class="upload-area" id="uploadArea">
+                    <input type="file" id="fileInput" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.bmp,.tiff,.txt" />
+                    <label for="fileInput" class="upload-label">
+                        <span class="upload-icon">⬆️</span>
+                        <span>Click to select file or drag & drop</span>
+                        <span class="file-types">Supported: PDF, Word, Excel, PowerPoint, Images, Text</span>
+                    </label>
+                </div>
+                <div id="fileInfo" class="file-info hidden"></div>
+            </section>
+
+            <!-- Options Section -->
+            <section class="card">
+                <h2>⚙️ Processing Options</h2>
+                <div class="options-grid">
+                    <div class="option-group">
+                        <label for="clientName">Client Name (optional):</label>
+                        <input type="text" id="clientName" placeholder="Enter client name to mask" />
+                    </div>
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="cleansePII" checked />
+                            Remove PII (Personal Identifiable Information)
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="cleanseLogos" checked />
+                            Remove Logos (for images)
+                        </label>
+                    </div>
+                    <div class="option-group">
+                        <label>
+                            <input type="checkbox" id="analyzeContent" checked />
+                            Analyze Security Content
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions Section -->
+            <section class="card actions">
+                <button id="cleanseBtn" class="btn btn-primary" disabled>
+                    🧹 Cleanse File
+                </button>
+                <button id="analyzeBtn" class="btn btn-secondary" disabled>
+                    🔍 Analyze File
+                </button>
+                <button id="processBtn" class="btn btn-success" disabled>
+                    ⚡ Cleanse & Analyze
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section class="card results hidden" id="resultsSection">
+                <h2>📊 Results</h2>
+                <div id="resultsContent"></div>
+            </section>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Processing your file...</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>Cyber Security File Processing System | AI-Powered Solution</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
